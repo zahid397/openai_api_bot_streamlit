@@ -1,4 +1,4 @@
-# 🚀 OpenAI API Bot Starter
+to# 🚀 OpenAI API Bot Starter
 
 > A sleek, dual‑personality AI chatbot built with Streamlit + OpenAI — ready to mentor or innovate.
 
@@ -174,4 +174,3 @@ MIT © [Your Name] – see [LICENSE](LICENSE) file for details.
 3. Save them as `demo.png`, `chat.png`, `sidebar.png` inside the `assets/` folder.
 4. Update the markdown image paths accordingly.
 
-Now your project looks as professional as it runs – ready for any hackathon or portfolio! 🔥
