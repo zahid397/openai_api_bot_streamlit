@@ -10,55 +10,81 @@
   <img src="https://img.shields.io/badge/Python-3.9+-blue?logo=python" alt="Python">
   <img src="https://img.shields.io/badge/Streamlit-1.28+-red?logo=streamlit" alt="Streamlit">
   <img src="https://img.shields.io/badge/OpenAI-API-00ffcc?logo=openai" alt="OpenAI">
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="MIT">
 </p>
 
 🔗 **Live Demo:** [openaiapibotapp.streamlit.app](https://openaiapibotapp-njcwnpm8ccv8sk5j4mr5fs.streamlit.app/)
 
 ---
 
-## ✨ Features
+## 🏗️ System Architecture
 
-| Feature | Description |
-|---------|-------------|
-| 🤖 **Two AI Bots** | **Mentor Bot** – guides on coding, career & learning. <br> **Innovation Bot** – sparks futuristic, creative ideas. |
-| 🎨 **Neon UI** | Dark futuristic theme with glowing borders, hover effects, and optional background. |
-| ⚡ **Fast & Lightweight** | Built on Streamlit, uses OpenAI’s GPT‑3.5‑Turbo. |
-| 🔒 **Secure** | API key stays local (`.env`) or via Streamlit secrets. |
-| 📱 **Mobile Friendly** | Responsive layout, quick prompts, scrollable chat. |
-| 🧠 **Context‑Aware** | Remembers conversation history for natural replies. |
+```mermaid
+flowchart TD
+    A[👤 User] -->|types query| B[🌐 Streamlit UI<br>app.py]
+    B -->|selects bot| C{🤖 Bot Router}
+    C -->|Mentor Bot| D[🧠 mentor_bot.py]
+    C -->|Innovation Bot| E[💡 innovation_bot.py]
+    D -->|API call| F[⚡ OpenAI API]
+    E -->|API call| F
+    F -->|generated response| B
+    B -->|displays neon reply| A
+    style A fill:#0e1625,stroke:#00ffcc,stroke-width:2px,color:#fff
+    style B fill:#0e1625,stroke:#ff00cc,stroke-width:2px,color:#fff
+    style C fill:#0e1625,stroke:#92fe9e,stroke-width:2px
+    style D fill:#0e1625,stroke:#00c9ff,stroke-width:2px
+    style E fill:#0e1625,stroke:#ffcc00,stroke-width:2px
+    style F fill:#0e1625,stroke:#ff6600,stroke-width:2px
+```
+
+💡 GitHub automatically renders this diagram.
+For an even better look, export the diagram as PNG from draw.io and save as assets/architecture.png. Then uncomment the <img> tag below:
+
+<!-- <p align="center"><img src="assets/architecture.png" width="750"></p> -->
 
 ---
 
-## 🖥️ Live Demo
+✨ Features
 
-**Click the badge above** or go to:  
-👉 [https://openaiapibotapp-njcwnpm8ccv8sk5j4mr5fs.streamlit.app/](https://openaiapibotapp-njcwnpm8ccv8sk5j4mr5fs.streamlit.app/)
+Feature Description
+🤖 Two AI Bots Mentor Bot – guides on coding, career & learning.   Innovation Bot – sparks futuristic, creative ideas.
+🎨 Neon UI Dark futuristic theme with glowing borders, hover effects, and optional background.
+⚡ Fast & Lightweight Built on Streamlit, uses OpenAI’s GPT‑3.5‑Turbo.
+🔒 Secure API key stays local (.env) or via Streamlit secrets.
+📱 Mobile Friendly Responsive layout, quick prompts, scrollable chat.
+🧠 Context‑Aware Remembers conversation history for natural replies.
+
+---
+
+🖥️ Live Demo
+
+Click the badge above or go to:
+👉 https://openaiapibotapp-njcwnpm8ccv8sk5j4mr5fs.streamlit.app/
 
 No installation required — just open the link and start chatting!
 
-> **Note:** The demo uses a shared OpenAI API key. For your own private version, deploy your own copy (see below).
+Note: The demo uses a shared OpenAI API key. For your own private version, deploy your own copy (see below).
 
 ---
 
-## 🧱 Project Structure
+🧱 Project Structure
 
 ```
-
 openai_api_bot_streamlit/
 ├── app.py                # Main Streamlit app (UI + logic)
 ├── mentor_bot.py         # Mentor Bot API handler
 ├── innovation_bot.py     # Innovation Bot API handler
 ├── .env                  # Environment variables (API key)
 └── assets/
-└── background.png    # Optional futuristic background
-
+    ├── architecture.png  # Optional architecture diagram image
+    └── background.png    # Optional futuristic background
 ```
 
 ---
 
-## 🛠️ Run Locally (for your own API key)
+🛠️ Run Locally (for your own API key)
 
-### 1️⃣ Clone the repository
+1️⃣ Clone the repository
 
 ```bash
 git clone https://github.com/yourusername/openai_api_bot_streamlit.git
@@ -151,3 +177,4 @@ MIT — free to use, modify, and distribute.
   <br>
   ⭐ Star this repo if you like it!
 </p>
+```
