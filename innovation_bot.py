@@ -1,8 +1,3 @@
----
-
-**File — 2** `innovation_bot.py`
-
-```python
 """
 Innovation Bot — Brainstorming, ideas, and creative problem-solving.
 Uses OpenAI API if key is available, else rule-based fallback.
