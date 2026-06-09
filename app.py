@@ -632,4 +632,78 @@ with right_col:
         suggestions = [
             ("💡", "Give me ideas"),
             ("🚀", "Startup advice"),
-            ("🔮", "Future trend
+            ("🔮", "Future trends"),
+            ("🧠", "Brainstorm with me"),
+        ]
+
+    # Render chip labels as HTML (visual only)
+    chips_html = '<div class="suggestion-chips">'
+    for icon, label in suggestions:
+        chips_html += f'<span class="suggestion-chip">{icon} {label}</span>'
+    chips_html += '</div>'
+    st.markdown(chips_html, unsafe_allow_html=True)
+
+    # ── Functional chip buttons ───────────────────────────────
+    chip_cols = st.columns(len(suggestions))
+    for i, (icon, label) in enumerate(suggestions):
+        with chip_cols[i]:
+            btn_key = f"chip_{i}_{st.session_state.bot}"
+            if st.button(f"{icon} {label}", key=btn_key,
+                        use_container_width=True):
+                st.session_state.pending_query = label
+                st.rerun()
+
+    st.markdown("</div>", unsafe_allow_html=True)  # close chat-window
+
+    # ── Input form ────────────────────────────────────────────
+    with st.form(key="chat_form", clear_on_submit=True):
+        input_col, btn_col = st.columns([6, 1])
+        with input_col:
+            user_input = st.text_input(
+                "",
+                placeholder="Type your message…",
+                key="chat_input",
+                label_visibility="collapsed",
+                value=st.session_state.get("pending_query", ""),
+            )
+        with btn_col:
+            submitted = st.form_submit_button("➤", use_container_width=True)
+
+    # Reset pending query after populating input
+    if st.session_state.pending_query:
+        query_to_send = st.session_state.pending_query
+        st.session_state.pending_query = ""
+        with st.spinner("🤖 Thinking…"):
+            time.sleep(0.4)  # brief delay for UX
+            send_message(query_to_send)
+        st.rerun()
+
+    # Process form submission
+    if submitted and user_input.strip():
+        with st.spinner("🤖 Thinking…"):
+            time.sleep(0.3)
+            send_message(user_input.strip())
+        st.rerun()
+
+    # Chat footer
+    st.markdown("""
+    <div class="chat-footer">
+        Built with <span>♥</span> and OpenAI
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("</div>", unsafe_allow_html=True)  # close wrapper
+
+
+# ════════════════════════════════════════════════════════════
+# TECH STACK BAR — Full Width
+# ════════════════════════════════════════════════════════════
+st.markdown("""
+<div class="tech-stack-bar">
+    <span class="tech-label">Tech Stack</span>
+    <div class="tech-item">🐍 Python</div>
+    <div class="tech-item">🤖 OpenAI API</div>
+    <div class="tech-item">⚡ Streamlit</div>
+    <div class="tech-item">🧠 Rule-Based AI</div>
+</div>
+""", unsafe_allow_html=True)
