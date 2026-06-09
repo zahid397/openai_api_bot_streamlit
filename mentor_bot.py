@@ -156,3 +156,74 @@ git add .           # stage all files
 git commit -m "msg" # save snapshot
 git push            # upload to GitHub
 git pull            # download latest
+```
+
+**Branching Strategy:**
+```bash
+git checkout -b feature/my-feature  # new branch
+git merge feature/my-feature        # merge back
+git branch -d feature/my-feature    # clean up
+```
+
+**Golden Rules:**
+- Commit early, commit often
+- Write meaningful commit messages
+- Never force-push to main
+- Use `.gitignore` for secrets and `__pycache__`""",
+        ]
+    }
+}
+
+def _rule_response(query: str) -> str:
+    """Keyword matching fallback classifier."""
+    q = query.lower()
+    for category, data in RULES.items():
+        if any(kw in q for kw in data["keywords"]):
+            return random.choice(data["responses"])
+
+    return f"""🎯 **Mentor Advice for: "{query}"**
+
+Here are three universal principles that apply to almost every developer challenge:
+
+1. **Break it down** — Divide your problem into the smallest possible pieces
+2. **Search smart** — Official docs → Stack Overflow → GitHub Issues
+3. **Build a prototype** — A working rough version beats perfect planning
+
+**Specific to your query:**
+Try searching: `site:stackoverflow.com {query[:40]}` or check the official documentation for the relevant technology.
+
+💡 Want deeper help? Be more specific — e.g., "How do I handle async errors in FastAPI?" gets better results than "How do I use FastAPI?"
+
+_Running in **Rule-Based Mode** — add your OpenAI API key in `.env` for smarter responses._"""
+
+
+def respond(query: str, history: list, api_key: str = None) -> str:
+    """
+    Main response function.
+    Falls back gracefully if OpenAI is unavailable.
+    """
+    if api_key and OPENAI_AVAILABLE:
+        try:
+            client = OpenAI(api_key=api_key)
+            messages = [{"role": "system", "content": MENTOR_SYSTEM_PROMPT}]
+
+            # Include recent conversation context (last 6 messages = 3 exchanges)
+            for msg in history[-6:]:
+                messages.append({"role": msg["role"], "content": msg["content"]})
+
+            messages.append({"role": "user", "content": query})
+
+            completion = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=messages,
+                max_tokens=700,
+                temperature=0.7,
+            )
+            return completion.choices[0].message.content
+
+        except Exception as e:
+            error_msg = str(e)
+            fallback = _rule_response(query)
+            return f"⚠️ **API Notice:** {error_msg}\n\n---\n\n{fallback}"
+
+    return _rule_response(query)
